@@ -247,14 +247,14 @@ module _ (R' : Ring ℓ) where
   mulFinMatrix1r : ∀ {m n} → (M : FinMatrix R m n) → mulFinMatrix oneFinMatrix M ≡ M
   mulFinMatrix1r M = funExt₂ λ i j → ∑Mul1r _ (λ x → M x j) i
 
-  mulFinMatrixrDistrAddFinMatrix : ∀ {n} (M N K : FinMatrix R n n)
+  mulFinMatrixrDistrAddFinMatrix : ∀ {m n k} (M : FinMatrix R m n ) (N K : FinMatrix R n k)
                                  → mulFinMatrix M (addFinMatrix N K) ≡ addFinMatrix (mulFinMatrix M N) (mulFinMatrix M K)
   mulFinMatrixrDistrAddFinMatrix M N K = funExt₂ λ i j →
     ∑ (λ k → M i k · (N k j + K k j))                 ≡⟨ ∑Ext (λ k → ·DistR+ (M i k) (N k j) (K k j)) ⟩
     ∑ (λ k → M i k · N k j + M i k · K k j)           ≡⟨ ∑Split (λ k → M i k · N k j) (λ k → M i k · K k j) ⟩
     ∑ (λ k → M i k · N k j) + ∑ (λ k → M i k · K k j) ∎
 
-  mulFinMatrixlDistrAddFinMatrix : ∀ {n} (M N K : FinMatrix R n n)
+  mulFinMatrixlDistrAddFinMatrix : ∀ {m n k} (M N : FinMatrix R m n) (K : FinMatrix R n k)
                                  → mulFinMatrix (addFinMatrix M N) K ≡ addFinMatrix (mulFinMatrix M K) (mulFinMatrix N K)
   mulFinMatrixlDistrAddFinMatrix M N K = funExt₂ λ i j →
     ∑ (λ k → (M i k + N i k) · K k j)                 ≡⟨ ∑Ext (λ k → ·DistL+ (M i k) (N i k) (K k j)) ⟩
